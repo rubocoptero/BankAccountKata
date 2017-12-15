@@ -1,20 +1,38 @@
 require 'rspec'
 
-class BankAccount
+class Balance
   def initialize
     @balance = 0
   end
 
-  def deposit(amount)
-    @balance += amount
-  end
-
-  def withdrawal(amount)
+  def substract(amount)
     @balance -= amount
   end
 
-  def balance
+  def add(amount)
+    @balance += amount
+  end
+
+  def amount
     @balance
+  end
+end
+
+class BankAccount
+  def initialize
+    @balance = Balance.new
+  end
+
+  def deposit(amount)
+    @balance.add(amount)
+  end
+
+  def withdrawal(amount)
+    @balance.substract(amount)
+  end
+
+  def balance
+    @balance.amount
   end
 end
 
