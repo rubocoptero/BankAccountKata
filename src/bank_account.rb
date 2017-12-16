@@ -1,41 +1,3 @@
-require 'date'
-
-class Balance
-  def initialize
-    @balance = 0
-  end
-
-  def substract(amount)
-    @balance -= amount
-  end
-
-  def add(amount)
-    @balance += amount
-  end
-
-  def amount
-    @balance
-  end
-end
-
-class Clock
-  class << self
-    def timestamp
-      format(now)
-    end
-
-    private
-
-    def now
-      Date.today
-    end
-
-    def format(date)
-      date.strftime('%d/%m/%Y')
-    end
-  end
-end
-
 class Transactions
   def initialize
     @transactions = []
@@ -55,6 +17,8 @@ class Transactions
     @transactions
   end
 end
+
+require_relative 'clock'
 
 class Transaction
   class Credit
@@ -105,6 +69,8 @@ class Transaction
     end
   end
 end
+
+require_relative 'balance'
 
 class BankAccount
   def initialize
