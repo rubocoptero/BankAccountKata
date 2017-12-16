@@ -51,25 +51,19 @@ class BankAccount
 
     lines << header
 
-    @operations.each do |op|
-      lines << "#{op[:date]} || #{op[:credit]} || #{op[:debit]} || #{op[:balance]}"
-    end
-
-
-    <<~STATEMENT
-      date || credit || debit || balance
-      14/01/2012 ||  || 500.00 || 2500.00
-      13/01/2012 || 2000.00 ||  || 3000.00
-      10/01/2012 || 1000.00 ||  || 1000.00
-    STATEMENT
+    lines << print_operations
 
     lines.join("\n")
   end
 
-  private
+  def print_operations
+    @operations.map do |op|
+      print(op)
+    end
+  end
 
-  def timestamp
-    Date.today.strftime('%d/%m/%Y')
+  def print(operation)
+    "#{operation[:date]} || #{operation[:credit]} || #{operation[:debit]} || #{operation[:balance]}"
   end
 end
 
