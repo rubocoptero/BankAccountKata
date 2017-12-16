@@ -19,8 +19,20 @@ class Balance
 end
 
 class Clock
-  def self.timestamp
-    Date.today.strftime('%d/%m/%Y')
+  class << self
+    def timestamp
+      format(now)
+    end
+
+    private
+
+    def now
+      Date.today
+    end
+
+    def format(date)
+      date.strftime('%d/%m/%Y')
+    end
   end
 end
 
