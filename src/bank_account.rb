@@ -1,4 +1,6 @@
 class Transactions
+  include Enumerable
+
   def initialize
     @transactions = []
   end
@@ -13,8 +15,8 @@ class Transactions
     add(debit)
   end
 
-  def transactions
-    @transactions
+  def each(&block)
+    @transactions.each { |transaction| block.call(transaction) }
   end
 
   private
@@ -130,7 +132,7 @@ class Printer
   private
 
   def print_statement(transactions)
-    transactions.transactions.map do |transaction|
+    transactions.map do |transaction|
       print(transaction)
     end
   end
