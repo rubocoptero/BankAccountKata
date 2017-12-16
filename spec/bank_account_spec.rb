@@ -28,17 +28,17 @@ end
 class BankAccount
   def initialize
     @balance = Balance.new
-    @operations = []
+    @transactions = []
   end
 
   def deposit(amount)
     @balance.add(amount)
-    @operations.unshift({ date: Clock.timestamp, credit: amount, debit: nil, balance: @balance.amount })
+    @transactions.unshift({ date: Clock.timestamp, credit: amount, debit: nil, balance: @balance.amount })
   end
 
   def withdrawal(amount)
     @balance.substract(amount)
-    @operations.unshift({ date: Clock.timestamp, credit: nil, debit: amount, balance: @balance.amount })
+    @transactions.unshift({ date: Clock.timestamp, credit: nil, debit: amount, balance: @balance.amount })
   end
 
   def balance
@@ -51,19 +51,19 @@ class BankAccount
 
     lines << header
 
-    lines << print_operations
+    lines << print_transactions
 
     lines.join("\n")
   end
 
-  def print_operations
-    @operations.map do |op|
+  def print_transactions
+    @transactions.map do |op|
       print(op)
     end
   end
 
-  def print(operation)
-    "#{operation[:date]} || #{operation[:credit]} || #{operation[:debit]} || #{operation[:balance]}"
+  def print(transaction)
+    "#{transaction[:date]} || #{transaction[:credit]} || #{transaction[:debit]} || #{transaction[:balance]}"
   end
 end
 
