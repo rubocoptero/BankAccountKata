@@ -42,15 +42,67 @@ class Transactions
   end
 
   def add_credit(amount, balance)
-    @transactions.unshift({ date: Clock.timestamp, credit: amount, debit: nil, balance: balance })
+    credit = Transaction::Credit.new(amount, balance)
+    @transactions.unshift(credit)
   end
 
   def add_debit(amount, balance)
-    @transactions.unshift({ date: Clock.timestamp, credit: nil, debit: amount, balance: balance })
+    debit = Transaction::Debit.new(amount, balance)
+    @transactions.unshift(debit)
   end
 
   def transactions
     @transactions
+  end
+end
+
+class Transaction
+  class Credit
+    def initialize(amount, balance)
+      @balance = balance
+      @amount = amount
+      @date = Clock.timestamp
+    end
+
+    def credit
+      @amount
+    end
+
+    def debit
+      nil
+    end
+
+    def date
+      @date
+    end
+
+    def balance
+      @balance
+    end
+  end
+
+  class Debit
+    def initialize(amount, balance)
+      @balance = balance
+      @amount = amount
+      @date = Clock.timestamp
+    end
+
+    def credit
+      nil
+    end
+
+    def debit
+      @amount
+    end
+
+    def date
+      @date
+    end
+
+    def balance
+      @balance
+    end
   end
 end
 
@@ -92,6 +144,6 @@ class BankAccount
   end
 
   def print(transaction)
-    "#{transaction[:date]} || #{transaction[:credit]} || #{transaction[:debit]} || #{transaction[:balance]}"
+    "#{transaction.date} || #{transaction.credit} || #{transaction.debit} || #{transaction.balance}"
   end
 end
