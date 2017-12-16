@@ -24,20 +24,38 @@ class Clock
   end
 end
 
+class Transactions
+  def initialize
+    @transactions = []
+  end
+
+  def add_credit(amount, balance)
+    @transactions.unshift({ date: Clock.timestamp, credit: amount, debit: nil, balance: balance })
+  end
+
+  def add_debit(amount, balance)
+    @transactions.unshift({ date: Clock.timestamp, credit: nil, debit: amount, balance: balance })
+  end
+
+  def transactions
+    @transactions
+  end
+end
+
 class BankAccount
   def initialize
     @balance = Balance.new
-    @transactions = []
+    @transactions = Transactions.new
   end
 
   def deposit(amount)
     @balance.add(amount)
-    @transactions.unshift({ date: Clock.timestamp, credit: amount, debit: nil, balance: @balance.amount })
+    @transactions.add_credit(amount, @balance.amount)
   end
 
   def withdrawal(amount)
     @balance.substract(amount)
-    @transactions.unshift({ date: Clock.timestamp, credit: nil, debit: amount, balance: @balance.amount })
+    @transactions.add_debit(amount, @balance.amount)
   end
 
   def balance
@@ -56,7 +74,7 @@ class BankAccount
   end
 
   def print_transactions
-    @transactions.map do |op|
+    @transactions.transactions.map do |op|
       print(op)
     end
   end
