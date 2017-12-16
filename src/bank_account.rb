@@ -38,6 +38,8 @@ class Transaction
   end
 
   class Credit
+    attr_reader :date, :balance
+
     def initialize(amount, balance)
       @balance = balance
       @amount = amount
@@ -50,18 +52,12 @@ class Transaction
 
     def debit
       nil
-    end
-
-    def date
-      @date
-    end
-
-    def balance
-      @balance
     end
   end
 
   class Debit
+    attr_reader :date, :balance
+
     def initialize(amount, balance)
       @balance = balance
       @amount = amount
@@ -74,14 +70,6 @@ class Transaction
 
     def debit
       @amount
-    end
-
-    def date
-      @date
-    end
-
-    def balance
-      @balance
     end
   end
 end
