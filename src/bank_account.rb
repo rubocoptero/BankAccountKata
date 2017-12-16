@@ -4,23 +4,37 @@ class Transactions
   end
 
   def add_credit(amount, balance)
-    credit = Transaction::Credit.new(amount, balance)
-    @transactions.unshift(credit)
+    credit = Transaction.create_credit(amount, balance)
+    add(credit)
   end
 
   def add_debit(amount, balance)
-    debit = Transaction::Debit.new(amount, balance)
-    @transactions.unshift(debit)
+    debit = Transaction.create_debit(amount, balance)
+    add(debit)
   end
 
   def transactions
     @transactions
+  end
+
+  private
+
+  def add(transaction)
+    @transactions.unshift(transaction)
   end
 end
 
 require_relative 'clock'
 
 class Transaction
+  def self.create_credit(amount, balance)
+    Transaction::Credit.new(amount, balance)
+  end
+
+  def self.create_debit(amount, balance)
+    Transaction::Debit.new(amount, balance)
+  end
+
   class Credit
     def initialize(amount, balance)
       @balance = balance
