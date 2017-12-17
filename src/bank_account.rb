@@ -89,35 +89,41 @@ class BankAccount
   end
 
   def statement
-    Printer.new.do(@transactions)
+    Statement.new(@transactions).do
   end
 end
 
-class Printer
+class Statement
   HEADER = 'date || credit || debit || balance'
 
-  def initialize
+  def initialize(transactions)
+    @lines = []
+    @transactions = transactions
   end
 
-  def do(transactions)
-    lines = []
-
-    lines << HEADER
-
-    lines << print_statement(transactions)
-
-    lines.join("\n")
+  def do
+    add_header
+    add_transactions
+    build
   end
 
   private
 
-  def print_statement(transactions)
-    transactions.map do |transaction|
-      print(transaction)
+  def add_header
+    @lines << HEADER
+  end
+
+  def add_transactions
+    @transactions.each do |transaction|
+      @lines << statement_line_from(transaction)
     end
   end
 
-  def print(transaction)
+  def statement_line_from(transaction)
     "#{transaction.date} || #{transaction.credit} || #{transaction.debit} || #{transaction.balance}"
+  end
+
+  def build
+    @lines.join("\n")
   end
 end
