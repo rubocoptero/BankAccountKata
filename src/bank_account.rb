@@ -93,6 +93,16 @@ class BankAccount
   end
 end
 
+class StatementLine
+  def initialize(transaction)
+    @transaction = transaction
+  end
+
+  def to_string
+    "#{@transaction.date} || #{@transaction.credit} || #{@transaction.debit} || #{@transaction.balance}"
+  end
+end
+
 class Statement
   HEADER = 'date || credit || debit || balance'
 
@@ -115,12 +125,13 @@ class Statement
 
   def add_transactions
     @transactions.each do |transaction|
-      @lines << statement_line_from(transaction)
+      @lines << build_line_from(transaction)
     end
   end
 
-  def statement_line_from(transaction)
-    "#{transaction.date} || #{transaction.credit} || #{transaction.debit} || #{transaction.balance}"
+  def build_line_from(transaction)
+    line = StatementLine.new(transaction)
+    line.to_string
   end
 
   def build
