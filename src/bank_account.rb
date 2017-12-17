@@ -37,15 +37,15 @@ class Transaction
     Transaction::Debit.new(amount, balance)
   end
 
-  class Credit
-    attr_reader :date, :balance
+  attr_reader :date, :balance
 
-    def initialize(amount, balance)
-      @balance = balance
-      @amount = amount
-      @date = Clock.timestamp
-    end
+  def initialize(amount, balance)
+    @balance = balance
+    @amount = amount
+    @date = Clock.timestamp
+  end
 
+  class Credit < Transaction
     def credit
       @amount
     end
@@ -55,15 +55,7 @@ class Transaction
     end
   end
 
-  class Debit
-    attr_reader :date, :balance
-
-    def initialize(amount, balance)
-      @balance = balance
-      @amount = amount
-      @date = Clock.timestamp
-    end
-
+  class Debit < Transaction
     def credit
       nil
     end
