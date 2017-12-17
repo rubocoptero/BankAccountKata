@@ -12,17 +12,19 @@ describe BankAccount do
     stub_clock_with('14/01/2012')
     bank_account.withdrawal(500)
 
-    expected_statement = <<~STATEMENT
+    statement = bank_account.statement
+
+    expect(statement).to eq(expected_statement.strip)
+    expect(bank_account.balance).to eq(2500)
+  end
+
+  def expected_statement
+    <<~STATEMENT
       date || credit || debit || balance
       14/01/2012 ||  || 500 || 2500
       13/01/2012 || 2000 ||  || 3000
       10/01/2012 || 1000 ||  || 1000
     STATEMENT
-
-    statement = bank_account.statement
-
-    expect(statement).to eq(expected_statement.strip)
-    expect(bank_account.balance).to eq(2500)
   end
 
   def stub_clock_with(value)

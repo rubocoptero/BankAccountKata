@@ -1,6 +1,8 @@
 require 'date'
 
 class Clock
+  DATE_FORMAT = '%d/%m/%Y'
+
   class << self
     def timestamp
       format(now)
@@ -13,7 +15,7 @@ class Clock
     end
 
     def format(date)
-      date.strftime('%d/%m/%Y')
+      date.strftime(DATE_FORMAT)
     end
   end
 end
