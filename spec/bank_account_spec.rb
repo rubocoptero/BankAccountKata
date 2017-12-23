@@ -15,7 +15,6 @@ describe BankAccount do
     statement = bank_account.statement
 
     expect(statement).to eq(expected_statement.strip)
-    expect(bank_account.balance).to eq(2500)
   end
 
   def expected_statement

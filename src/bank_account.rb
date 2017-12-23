@@ -84,10 +84,6 @@ class BankAccount
     @transactions.add_debit(amount, @balance.amount)
   end
 
-  def balance
-    @balance.amount
-  end
-
   def statement
     Statement.new(@transactions).do
   end
